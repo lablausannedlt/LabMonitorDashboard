@@ -1,0 +1,67 @@
+2026-03-09 14:57:17,012  INFO      Polling interval: 600 s  city_id=2659994
+2026-03-09 14:57:17,015  INFO      InfluxDB connected: http://localhost:8086  bucket=LabEnvironment
+2026-03-09 14:57:17,086  INFO      Lausanne, CH  T=15.5°C  RH=55%  P=1020hPa  Wind=0.6m/s  few clouds
+2026-03-09 15:07:17,063  INFO      Lausanne, CH  T=15.5°C  RH=55%  P=1020hPa  Wind=0.6m/s  few clouds
+2026-03-09 15:08:03,653  INFO      Shutdown signal received – stopping.
+2026-03-09 15:08:03,878  INFO      Shutdown signal received – stopping.
+2026-03-09 15:08:04,058  INFO      Shutdown signal received – stopping.
+2026-03-09 15:08:04,238  INFO      Shutdown signal received – stopping.
+2026-03-09 15:08:04,441  INFO      Shutdown signal received – stopping.
+2026-03-09 15:08:04,621  INFO      Shutdown signal received – stopping.
+2026-03-09 15:08:46,517  INFO      Shutdown signal received – stopping.
+2026-03-09 15:08:46,739  INFO      Shutdown signal received – stopping.
+2026-03-09 15:08:46,920  INFO      Shutdown signal received – stopping.
+2026-03-09 15:08:47,099  INFO      Shutdown signal received – stopping.
+2026-03-09 15:08:47,324  INFO      Shutdown signal received – stopping.
+2026-03-09 15:08:47,956  INFO      Shutdown signal received – stopping.
+2026-03-09 15:08:48,180  INFO      Shutdown signal received – stopping.
+2026-03-09 15:09:01,209  INFO      Shutdown signal received – stopping.
+2026-03-09 15:09:01,717  INFO      Shutdown signal received – stopping.
+2026-03-09 15:09:01,751  INFO      Shutdown signal received – stopping.
+2026-03-09 15:09:01,784  INFO      Shutdown signal received – stopping.
+2026-03-09 15:09:01,821  INFO      Shutdown signal received – stopping.
+2026-03-09 15:09:01,853  INFO      Shutdown signal received – stopping.
+2026-03-09 15:09:01,887  INFO      Shutdown signal received – stopping.
+2026-03-09 15:09:01,920  INFO      Shutdown signal received – stopping.
+2026-03-09 15:09:01,954  INFO      Shutdown signal received – stopping.
+2026-03-09 15:09:01,986  INFO      Shutdown signal received – stopping.
+2026-03-09 15:09:02,019  INFO      Shutdown signal received – stopping.
+2026-03-09 15:09:02,053  INFO      Shutdown signal received – stopping.
+2026-03-09 15:09:02,088  INFO      Shutdown signal received – stopping.
+2026-03-09 15:09:02,121  INFO      Shutdown signal received – stopping.
+2026-03-09 15:09:02,137  INFO      Shutdown signal received – stopping.
+2026-03-09 15:09:02,170  INFO      Shutdown signal received – stopping.
+2026-03-09 15:09:02,202  INFO      Shutdown signal received – stopping.
+2026-03-09 15:09:02,237  INFO      Shutdown signal received – stopping.
+2026-03-09 15:09:02,270  INFO      Shutdown signal received – stopping.
+2026-03-09 15:09:02,304  INFO      Shutdown signal received – stopping.
+2026-03-09 15:09:02,338  INFO      Shutdown signal received – stopping.
+2026-03-09 15:09:02,370  INFO      Shutdown signal received – stopping.
+2026-03-09 15:11:53,224  INFO      Shutdown signal received – stopping.
+2026-03-09 15:11:53,584  INFO      Shutdown signal received – stopping.
+2026-03-09 15:11:54,169  INFO      Shutdown signal received – stopping.
+2026-03-09 15:11:54,372  INFO      Shutdown signal received – stopping.
+2026-03-09 15:11:54,574  INFO      Shutdown signal received – stopping.
+2026-03-09 15:12:28,980  INFO      Shutdown signal received – stopping.
+2026-03-09 15:17:16,993  INFO      OWM logger stopped.
+2026-03-09 15:17:21,479  INFO      Polling interval: 600 s  city_id=2659994
+2026-03-09 15:17:21,482  INFO      InfluxDB connected: http://localhost:8086  bucket=LabEnvironment
+2026-03-09 15:17:21,546  INFO      Lausanne, CH  T=15.2°C  RH=54%  P=1020hPa  Wind=0.6m/s  few clouds
+2026-03-09 15:17:24,434  INFO      Shutdown signal received – stopping.
+2026-03-09 15:17:24,549  INFO      OWM logger stopped.
+2026-03-09 15:17:26,218  INFO      Polling interval: 600 s  city_id=2659994
+2026-03-09 15:17:26,222  INFO      InfluxDB connected: http://localhost:8086  bucket=LabEnvironment
+2026-03-09 15:17:26,272  INFO      Lausanne, CH  T=15.2°C  RH=54%  P=1020hPa  Wind=0.6m/s  few clouds
+2026-03-09 15:27:26,250  INFO      Lausanne, CH  T=15.2°C  RH=54%  P=1020hPa  Wind=0.6m/s  few clouds
+2026-03-09 15:37:26,265  INFO      Lausanne, CH  T=15.5°C  RH=55%  P=1019hPa  Wind=0.8m/s  scattered clouds
+2026-03-09 15:47:26,249  INFO      Lausanne, CH  T=14.9°C  RH=54%  P=1019hPa  Wind=0.8m/s  scattered clouds
+2026-03-09 15:48:27,894  INFO      Shutdown signal received – stopping.
+2026-03-09 15:48:28,096  INFO      Shutdown signal received – stopping.
+2026-03-09 15:48:28,276  INFO      OWM logger stopped.
+2026-03-09 15:48:33,208  INFO      Polling interval: 600 s  city_id=2659994
+2026-03-09 15:48:33,212  INFO      InfluxDB connected: http://localhost:8086  bucket=LabEnvironment
+2026-03-09 15:48:33,272  INFO      Lausanne, CH  T=14.9°C  RH=54%  P=1019hPa  Wind=0.8m/s  scattered clouds
+2026-03-09 15:52:23,287  INFO      Polling interval: 600 s  city_id=2659994
+2026-03-09 15:52:23,289  INFO      InfluxDB connected: http://localhost:8086  bucket=LabEnvironment
+2026-03-09 15:52:23,349  INFO      Lausanne, CH  T=14.9°C  RH=54%  P=1019hPa  Wind=0.8m/s  scattered clouds
+2026-03-09 16:02:23,338  INFO      Lausanne, CH  T=15.2°C  RH=54%  P=1019hPa  Wind=0.8m/s  scattered clouds

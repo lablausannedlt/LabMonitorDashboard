@@ -1,0 +1,65 @@
+# =============================================================================
+# TSP01 Logger Configuration
+# =============================================================================
+
+sensor:
+  # VISA resource string for the TSP01.
+  # To find it: python tsp01_logger.py --list-resources
+  # Typical format on Windows with NI-VISA:
+  #   USB0::0x1313::0x80F8::<SERIAL_NUMBER>::INSTR
+  visa_resource: "4883_33018_M01241742"
+
+  # VISA query timeout in milliseconds
+  timeout_ms: 5000
+
+
+influxdb:
+  # InfluxDB 2.x server URL
+  url: "http://localhost:8086"
+
+  # API token (create one in InfluxDB UI: Data → API Tokens → Generate)
+  token: "rUdBAT5YZcluM8I2J5pbSqb6iRjmuiTUdlE6e3lSNFiOKDmcbF7UhZlYgZSCO-uTtDy6230hVswCnMW02YuWGA=="
+
+  # Organisation name (shown in top-left of InfluxDB UI)
+  org: "Deeplight"
+
+  # Bucket to write into (create in InfluxDB UI: Data → Buckets)
+  bucket: "LabEnvironment"
+
+  # InfluxDB measurement name (like a table name)
+  measurement: "tsp01"
+
+  # Optional static tags added to every data point.
+  # Useful if you have multiple sensors / locations in the same bucket.
+  tags:
+    location: "lab"
+    sensor_id: "tsp01_1"
+
+
+acquisition:
+  # How often to read the sensor (seconds)
+  interval_seconds: 10
+
+  # How long to wait before retrying after a read error (seconds)
+  retry_delay_seconds: 30
+
+  # How many consecutive errors before the daemon exits
+  max_consecutive_errors: 5
+
+
+# =============================================================================
+# OpenWeatherMap Logger (owm_logger.py)
+# =============================================================================
+openweathermap:
+  # Free API key from https://openweathermap.org/api
+  api_key: "a8a29f54393b999d77383754d4c3fb56"
+
+  # City ID — 2659994 = Lausanne, Switzerland
+  # Find other city IDs at: https://openweathermap.org/find
+  city_id: 2659994
+
+  # Units: metric (°C), imperial (°F), or standard (K)
+  units: "metric"
+
+  # Polling interval in seconds (600 = 10 minutes)
+  interval_seconds: 600
