@@ -132,7 +132,10 @@ def _load_tlts_dll() -> tuple[ctypes.WinDLL, str]:
     for path in _DLL_CANDIDATES:
         if Path(path).exists():
             log.info("Loading driver DLL: %s", path)
-            dll = ctypes.WinDLL(path)
+            try:
+                dll = ctypes.WinDLL(path)
+            except Exception as e:
+                log.error(f"Errore nel caricamento di {path}: {e}")
             # Derive function prefix from stem: "TLTSP_64" → "TLTSP"
             prefix = Path(path).stem.split("_")[0]
             log.info("Using function prefix: %s_*", prefix)
@@ -190,29 +193,27 @@ class TSP01:
     """
 
     def __init__(self, resource_name: str | None = None):
-        """
-        Args:
-            resource_name: VISA-style USB resource string, e.g.
-                           "USB0::0x1313::0x8075::P5007554::0::INSTR"
-                           Pass None to auto-detect the first connected TSP01.
-        """
         self._dll, self._pfx = _load_tlts_dll()
-        self._vi  = ViSession(0)
+        self._vi = ViSession(0)
 
+        # 1. Se è None, cercalo (assicurati che _find_first_resource restituisca bytes o str)
         if resource_name is None:
             resource_name = self._find_first_resource()
             log.info("Auto-detected resource: %s", resource_name)
 
-        rsrc = resource_name.encode() if isinstance(resource_name, str) else resource_name
+        # 2. Converti in bytes solo se è stringa, altrimenti usa così com'è
+        rsrc_bytes = resource_name.encode('utf-8') if isinstance(resource_name, str) else resource_name
+        
+        log.debug("Attempting init with resource: %s", rsrc_bytes)
 
         fn = getattr(self._dll, f"{self._pfx}_init")
         status = fn(
-            c_char_p(rsrc),
-            ViBoolean(0),       # IDQuery  = False (avoids extra comms during open)
-            ViBoolean(0),       # resetDevice = False
+            c_char_p(rsrc_bytes),
+            ViBoolean(1),
+            ViBoolean(1),
             byref(self._vi),
         )
-        _check(status, f"{self._pfx}_init", dll=self._dll)
+        _check(status, f"{self._pfx}_init", dll=self._dll, vi=self._vi)
         log.info("TSP01 initialised (handle=%d)", self._vi.value)
 
     # ------------------------------------------------------------------
@@ -281,6 +282,13 @@ class TSP01:
             # Driver returns ~9.9e37 when probe is absent
             if abs(ext) < 1e10:
                 data["temperature_external_c"] = ext
+        except Exception:
+            pass
+        try:
+            ext = self.read_temperature(TLTSP_TEMPER_CHANNEL_3)
+            # Driver returns ~9.9e37 when probe is absent
+            if abs(ext) < 1e10:
+                data["temperature_external_c2"] = ext
         except Exception:
             pass
         return data
@@ -399,11 +407,12 @@ def run(config_path: str = "config.yaml"):
                 now  = datetime.now(timezone.utc)
                 writer.write(data, timestamp=now)
 
-                ext_str = (
-                    f"T_ext={data['temperature_external_c']:.3f} °C"
-                    if "temperature_external_c" in data
-                    else "(no ext probe)"
-                )
+                ext_parts = []
+                if "temperature_external_c" in data:
+                    ext_parts.append(f"T_ext={data['temperature_external_c']:.3f} °C")
+                if "temperature_external_c2" in data:
+                    ext_parts.append(f"T_ext2={data['temperature_external_c2']:.3f} °C")
+                ext_str = "  ".join(ext_parts) if ext_parts else "(no ext probes)"
                 log.info(
                     "T_int=%.3f °C  RH=%.2f %%  %s",
                     data["temperature_internal_c"],
