@@ -1,9 +1,10 @@
-# TSP01 Logger dependencies
+# LabMonitor dependencies
 # Install with: pip install -r requirements.txt
 #
-# NOTE: PyVISA is NOT required. The TSP01 is a HID USB device and is accessed
-# via Thorlabs' TLTS_64.dll (installed with the TSP01 software) through ctypes.
+# NOTE: PyVISA is NOT required. The TSP01B is a HID USB device accessed
+# via Thorlabs' TLTSPB_64.dll (installed with the TSP01 software) through ctypes.
 
 influxdb-client>=1.36.0  # InfluxDB 2.x Python client
 requests>=2.28.0         # HTTP client for OpenWeatherMap API
 pyyaml>=6.0              # YAML config file parsing
+pyserial>=3.5            # Serial port access for STM32 logger
