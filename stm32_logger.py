@@ -71,7 +71,7 @@ def _interruptible_sleep(seconds: float, chunk: float = 1.0):
 # ---------------------------------------------------------------------------
 # Serial line parser
 # ---------------------------------------------------------------------------
-_IGNORED_RE = re.compile(r"^(WHOAMI|ODR)\[")
+_IGNORED_RE = re.compile(r"^(WHOAMI|ODR|FS)\[")
 
 # Single-value environment lines: (regex, influx_field_name, cast_fn)
 _ENV_PATTERNS: list[tuple[re.Pattern, str, type]] = [
@@ -102,6 +102,12 @@ _IMU_PATTERNS: list[tuple[re.Pattern, str, str, str]] = [
         "mag_x", "mag_y", "mag_z",
     ),
 ]
+
+
+def _point_key(p: Point) -> tuple:
+    """Unique key for a point: (measurement, frozen tags, frozen field names).
+    Used to keep only the latest sample per channel in each write window."""
+    return (p._name, frozenset(p._tags.items()), frozenset(p._fields.keys()))
 
 
 def parse_line(line: str) -> list[Point]:
@@ -194,7 +200,7 @@ def run(config_path: str = "config.yaml"):
     port        = stm32_cfg["port"]
     baud        = int(stm32_cfg.get("baud", 115200))
     retry_delay = float(stm32_cfg.get("retry_delay_seconds", 5))
-    batch_sec   = float(stm32_cfg.get("batch_seconds", 1.0))
+    batch_sec   = float(stm32_cfg.get("batch_seconds", 10.0))
     max_retries = int(stm32_cfg.get("max_consecutive_errors", 5))
     extra_tags  = stm32_cfg.get("tags", {})
 
@@ -229,8 +235,8 @@ def run(config_path: str = "config.yaml"):
                     _interruptible_sleep(retry_delay)
                     continue
 
-            # Collect parsed points for one batch window
-            batch: list[Point] = []
+            # Collect one window of data; keep only the latest sample per channel
+            latest: dict[tuple, Point] = {}
             batch_deadline = time.monotonic() + batch_sec
             serial_error = False
 
@@ -250,24 +256,20 @@ def run(config_path: str = "config.yaml"):
                         for p in points:
                             for k, v in extra_tags.items():
                                 p.tag(k, v)
-                        batch.extend(points)
+                            latest[_point_key(p)] = p
                     elif line and not _IGNORED_RE.match(line):
                         if line not in unmatched_warned:
                             log.warning("Unmatched serial line: %r", line)
                             unmatched_warned.add(line)
 
-            if serial_error or not batch:
+            if serial_error or not latest:
                 continue
 
-            # Write batch to InfluxDB
+            # Write one sample per channel to InfluxDB
+            to_write = list(latest.values())
             try:
-                writer.write(batch)
-                log.info(
-                    "Wrote %d point(s)  (env=%d  imu=%d)",
-                    len(batch),
-                    sum(1 for p in batch if "environment" in p.to_line_protocol()),
-                    sum(1 for p in batch if p.to_line_protocol().startswith("imu,")),
-                )
+                writer.write(to_write)
+                log.info("Wrote %d point(s) to InfluxDB", len(to_write))
                 consecutive_errors = 0
             except Exception as exc:
                 consecutive_errors += 1

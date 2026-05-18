@@ -83,7 +83,7 @@ stm32:
   retry_delay_seconds: 5
 
   # Collect this many seconds of serial data before sending one batch write
-  batch_seconds: 1.0
+  batch_seconds: 10.0
 
   # Exit after this many consecutive InfluxDB write failures
   max_consecutive_errors: 5
